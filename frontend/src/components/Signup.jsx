@@ -14,10 +14,10 @@ function Signup() {
     e.preventDefault();
     try {
       const role = isAdmin ? 'admin' : 'user';
-      await axios.post('http://localhost:5000/api/auth/signup', { name, email, password, role });
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/signup`, { name, email, password, role });
       navigate('/login');
     } catch (err) {
-      setError('Registration failed');
+      setError(err.response?.data?.error || err.message || 'Registration failed');
     }
   };
 

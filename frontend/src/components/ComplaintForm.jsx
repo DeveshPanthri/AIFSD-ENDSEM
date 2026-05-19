@@ -18,7 +18,7 @@ function ComplaintForm({ onComplaintAdded }) {
 
     try {
       // Analyze with AI first
-      const aiResponse = await axios.post('http://localhost:5000/api/ai/analyze', {
+      const aiResponse = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/ai/analyze`, {
         title: formData.title,
         description: formData.description,
         category: formData.category
@@ -34,7 +34,7 @@ function ComplaintForm({ onComplaintAdded }) {
       else if (aiData.urgency === 'Low') calculatedPriority = 4;
 
       // Save to database
-      await axios.post('http://localhost:5000/api/complaints', { ...formData, priorityRank: calculatedPriority }, { headers });
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/complaints`, { ...formData, priorityRank: calculatedPriority }, { headers });
       onComplaintAdded();
       setFormData({ name: '', email: '', title: '', description: '', category: '', location: '' });
     } catch (err) {

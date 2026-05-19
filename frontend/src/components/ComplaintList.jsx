@@ -9,7 +9,7 @@ function ComplaintList({ complaints, fetchComplaints }) {
   const handleStatusUpdate = async (id, newStatus) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/complaints/${id}`, { status: newStatus }, {
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/complaints/${id}`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchComplaints();
@@ -21,7 +21,7 @@ function ComplaintList({ complaints, fetchComplaints }) {
   const handlePriorityUpdate = async (id, newPriority) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/complaints/${id}`, { priorityRank: newPriority }, {
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/complaints/${id}`, { priorityRank: newPriority }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchComplaints();
@@ -34,7 +34,7 @@ function ComplaintList({ complaints, fetchComplaints }) {
     if (!search) return fetchComplaints();
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:5000/api/complaints/search?location=${search}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/complaints/search?location=${search}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       // Replace the global state via a local state approach if needed, or pass it to parent.
