@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: complaint-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        value: "your_mongodb_atlas_uri"
+      - key: JWT_SECRET
+        value: "supersecret123"
+      - key: API_KEY
+        value: "your_gemini_api_key"
+
+  - type: web
+    name: complaint-frontend
+    env: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: "https://complaint-backend.onrender.com"
