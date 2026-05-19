@@ -10,7 +10,13 @@ const aiRoutes = require('./routes/aiRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://aifsd-endsem-1-frontend.onrender.com'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes
@@ -25,9 +31,9 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// Start server immediately so Render doesn't throw 502 while MongoDB connects
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch(err => console.error('Could not connect to MongoDB', err));
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Could not connect to MongoDB:', err));
